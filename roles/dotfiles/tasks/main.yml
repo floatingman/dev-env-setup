@@ -1,0 +1,40 @@
+---
+- name: Install rcm
+  aur: name=rcm user={{ user.name }}
+  when: dotfiles is defined
+  tags:
+    - aur
+
+- name: Clone user dotfiles
+  git: repo={{ dotfiles.url }} dest=/home/{{ user.name }}/{{ dotfiles.destination }} accept_hostkey=yes update=no
+  when: dotfiles is defined
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Build bashrc
+  command: /home/{{ user.name }}/{{ dotfiles.destination }}/build
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Run Install script
+  command: /home/{{ user.name }}/{{ dotfiles.destination }}/install.sh
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Symlink rcm rc file to user directory
+  file:
+    src: "/home/{{ user.name }}/{{ dotfiles.destination }}/rcrc"
+    dest: "/home/{{ user.name }}/.rcrc"
+    state: link
+
+- name: Install user dotfiles
+  command: rcup -d /home/{{ user.name }}/{{ dotfiles.destination}} {{ dotfiles.rcup_flags }}
+  when: dotfiles is defined
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Install linux tagged dotfiles
+  command: rcup -d /home/{{ user.name }}/{{ dotfiles.destination }} -tag linux
+  when: dotfiles is defined
+  become: yes
+  become_user: "{{ user.name }}"

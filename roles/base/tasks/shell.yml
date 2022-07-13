@@ -1,0 +1,33 @@
+---
+- name: Install Bash
+  pacman:
+    name:
+      - bash
+      - bash-completion
+    state: present
+  tags:
+    - shell
+
+- name: Install ZSH
+  pacman:
+    name:
+      - zsh
+      - zsh-completions
+    state: present
+  tags:
+    - shell
+
+- name: Install shell helpers
+  aur:
+    name:
+      - antibody
+      - shell-color-scripts
+      - starship
+    user: "{{user.name}}"
+  tags:
+    - aur
+
+- name: Install fish
+  pacman:
+    name: fish
+    state: present

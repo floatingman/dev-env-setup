@@ -1,0 +1,51 @@
+user:
+	name: dnewman
+	uid: 1000
+	group: dnewman
+	shell: /usr/bin/zsh
+	email: dan@danlovesprogramming.com
+	log:
+		dir: log
+		rotate: 8
+
+hostname: devenv
+
+dotfiles:
+	url: git@github.com:floatingman/dotfiles.git
+	destination: .dotfiles
+	rcup_flags: -fx Makefile:README.md:README.org:EMACS.org:DESKTOP.org:test.sh:install.sh:mac-os.sh:tags:build:hooks:bashrc.d:backgrounds:update-dotfiles
+
+aur:
+	dir: aur
+	packages:
+	        - paru
+        	- downgrade
+        	- myrepos
+        	- powershell-preview-bin
+        	- lf-git
+
+ssh:
+	port: 22
+	user_key: /root/.ssh/id_ed25519_suse
+	enabled_sshd: False
+
+base_packages:
+	- base-devel
+	- gcc-fortran
+	- pacman-contrib
+	- tmux
+	- git
+	- rsync
+	- glances
+	- man-db
+	- man-pages
+	- coreutils
+	- moreutils
+	- dateutils
+	- bc
+	- python-keyring
+	- python-secretstorage
+	- tig
+	- ruby
+	- jq
+	- the_silver_searcher
